@@ -1,0 +1,17 @@
+FP32 Model
+Accuracy: 96.07%
+Model size: 410875 bytes
+Inference time: 0.0079 s average over 5 passes of 10000 test images
+
+INT8 Model
+Accuracy: 96.09%
+Model size: 109429 bytes
+Inference time: 0.0662 s average over 5 passes of 10000 test images
+
+Difference:
+Accuracy change (INT8 - FP32): +0.02 percentage points
+Model size: INT8 file is 0.27x the FP32 file
+Inference time: INT8 took 8.38x as long as FP32 in this run
+
+Measured on CPU. One warmup pass was run before timing.
+Inference time depends on the computer and the software environment.
