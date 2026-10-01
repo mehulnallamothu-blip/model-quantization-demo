@@ -2,7 +2,7 @@ import os
 import time
 
 import torch
-import torchao.quantization  # noqa: F401  registers Int8Tensor so the INT8 model can load
+import torchao.quantization  
 from torchvision import datasets, transforms
 
 
@@ -18,8 +18,6 @@ def accuracy(model, images, labels, batch_size):
 
 
 def inference_seconds(model, images, batch_size, repeats):
-    # One warmup pass, then the average of several full passes.
-    # Timing depends on this computer and the PyTorch build.
     with torch.no_grad():
         for start in range(0, images.size(0), batch_size):
             model(images[start : start + batch_size])
