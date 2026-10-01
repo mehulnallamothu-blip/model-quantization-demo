@@ -7,7 +7,6 @@ from torchvision import datasets, transforms
 
 
 def build_model():
-    # MNIST images are 1x28x28. Flatten, then two linear layers.
     return nn.Sequential(
         nn.Flatten(),
         nn.Linear(28 * 28, 128),
