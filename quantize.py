@@ -7,14 +7,11 @@ from torchao.quantization import Int8StaticActivationInt8WeightConfig, quantize_
 from torchao.quantization.granularity import PerRow, PerTensor
 from torchao.quantization.quant_primitives import MappingType
 
-# INT8 range used for the activation scale and zero-point.
 QMIN = -128
 QMAX = 127
 
 
 def activation_scale_and_zero_point(xmin, xmax):
-    # Map the observed float range onto INT8:
-    # real_value = scale * (int8_value - zero_point)
     scale = (xmax - xmin) / (QMAX - QMIN)
     if scale == 0:
         scale = 1.0
@@ -73,9 +70,7 @@ def main():
     ranges, seen = collect_activation_ranges(model, train_loader, max_samples=1024)
     print(f"Calibrated on {seen} MNIST training images")
 
-    # Activations: one scale and zero-point per linear layer (per tensor).
-    # Weights: torchao stores each output row with its own symmetric scale.
-    # Bias, Flatten, and ReLU stay in FP32.
+
     for name, (xmin, xmax) in ranges.items():
         scale, zero_point = activation_scale_and_zero_point(xmin, xmax)
         print(
@@ -95,7 +90,7 @@ def main():
 
         quantize_(model, config, filter_fn=match_this_layer)
 
-    # torchao installs an extra_repr that cannot be pickled.
+
     for module in model.modules():
         module.__dict__.pop("extra_repr", None)
 
